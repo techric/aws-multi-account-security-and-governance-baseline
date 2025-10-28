@@ -63,6 +63,16 @@ The sign-in URL pattern should look like this. AWS refers to this as the account
 ```
 https://<ACCOUNT_ALIAS>.signin.aws.amazon.com/console
 ```
+---
+
+d. Quickstart Implementation Steps
+   1. Verified identity and privileges using ``` aws sts get-caller-identity ```.
+   2. Created account alias (``` ACCOUNT_ALIAS ```) via AWS CLI.
+   3. Configured IAM users for:
+      - Admin user with ``` AdministratorAccess ```
+      - Read-only user with ``` ReadOnlyAccess ```
+   4. Applied MFA to both IAM users and the root user.
+   5. Validated access by signing in through the alias URL.
 
 ---
 
