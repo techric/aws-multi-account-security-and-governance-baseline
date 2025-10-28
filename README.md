@@ -155,8 +155,8 @@ aws-multi-account-security-and-governance-baseline/
 │ │ └── cli-iam-session.png
 │ └── troubleshooting-report.md
 ├── scripts/
-│ └── aws-cli-setup-commands.sh
-└── sandbox-readonly-policy.json
+  └── aws-cli-setup-commands.sh
+
 ```
 
 
