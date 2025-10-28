@@ -142,8 +142,10 @@ All screenshots should be redacted to hide account IDs and personal information 
 aws-multi-account-security-and-governance-baseline/
 
 ```
-│
+
 ├── README.md
+├── env/
+│   └── .env 
 ├── docs/
 │ ├── architecture/
 │ │ └── aws-account-architecture.png
@@ -154,7 +156,7 @@ aws-multi-account-security-and-governance-baseline/
 │ │ ├── cli-root-session.png
 │ │ └── cli-iam-session.png
 │ └── troubleshooting-report.md
-├── scripts/
+└── scripts/
   └── aws-cli-setup-commands.sh
 
 ```
