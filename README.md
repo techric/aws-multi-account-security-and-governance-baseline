@@ -4,7 +4,7 @@
 
 ---
 
-## 1. What This Project Shows
+## 0. What This Project Shows
 
 ### Problem
 Many engineers and organizations blur the line between **root ownership** and **operational IAM usage**, creating security and audit risks.  
@@ -12,7 +12,7 @@ Common symptoms include unprotected root accounts, weak MFA policies, and unclea
 
 When I first started my AWS journey, I created two separate AWS accounts. I did this BEFORE I fully understood the difference between root users and subordinate IAM accounts. So, for this project, I am hardening both my Primary Account (PA) and my Sandbox Account (SA). 
 
-NOTE: I have changed the names of my accounts to keep them anonymous. 
+NOTE: I've changed the names of my accounts to keep them anonymous. 
 
 ### Solution
 This project establishes a **multi-account AWS baseline** using:
@@ -35,6 +35,38 @@ This project establishes a **multi-account AWS baseline** using:
 | Email verification delays | iCloud greylisting of AWS SES mail | Waited ~10 minutes and whitelisted `amazon.com` sender | Cloud mail providers may throttle external verification emails |
 | Missing “Enable Console Access” option | AWS Console UI update renamed it to “Manage Console Access” | Located new path under IAM user settings | AWS interfaces evolve; documentation must evolve with them |
 | Multiple MFA device confusion | Same phone used for multiple authentications | Consolidated devices into a single app with clear labels | Clear labeling prevents human error and lockouts |
+
+---
+## 1. Quickstart Guide - A practical walkthrough demonstrating how to configure secure AWS account aliases, IAM users, and MFA-based access control across multiple root accounts.
+
+a. Copy and configure the environment file  
+   ```bash
+   cp env/.env.example env/.env
+```
+   # Open the env/.env and replace the placeholders with your real values.
+   # Required fields: ACCOUNT_ALIAS, ADMIN_USER, READONLY_USER, TEMP passwords.
+
+
+
+
+b. Run the script
+
+```
+bash scripts/aws-cli-setup-commands.sh
+
+```
+c. Verify your configuration
+```
+aws sts get-caller-identity
+aws iam list-account-aliases
+aws iam list-users
+```
+
+Sign-in URL pattern
+```
+https://<ACCOUNT_ALIAS>.signin.aws.amazon.com/console
+```
+
 
 ---
 
@@ -63,7 +95,7 @@ Each account enforces MFA for both root and IAM identities. Root users are reser
 |------|--------------|-------------------|----------|
 | Root Hardening | Enabled MFA | AWS Console and CLI | Root users fully secured |
 | Account Aliasing | Created descriptive aliases for sign-in | `aws iam create-account-alias` | Simplified human-readable login URLs |
-| IAM User Creation | Added `AdminUser` with limited privileges | Console and CLI | Operational account established |
+| IAM User Creation | Added `AdminUser` with AdministratorAccess (all operations except account-level ownership) | Console and CLI | Operational account established |
 | Read-Only Sandbox | Created `ReadOnlyUser` for testing | `aws iam attach-user-policy` | Safe, restricted environment for education |
 | MFA Configuration | Configured MFA for all privileged users | Console | Enforced multi-factor authentication |
 | CLI Validation | Verified caller identity and alias mapping | `aws sts get-caller-identity`, `aws iam list-account-aliases` | Confirmed correct identity and permissions context |
@@ -94,7 +126,7 @@ All screenshots should be redacted to hide account IDs and personal information 
 
 ## 6. Cost Considerations
 - This project was executed entirely within the AWS Free Tier.  
-- All temporary users, aliases, and policies were deleted after validation.  
+- All temporary users, aliases, and policies that were not needed were deleted. The accounts are otherwise live.   
 - No ongoing charges remain associated with the accounts used for this demonstration.
 
 ---
@@ -118,7 +150,6 @@ aws-multi-account-security-and-governance-baseline/
 │ └── troubleshooting-report.md
 ├── scripts/
 │ └── aws-cli-setup-commands.sh
-└── templates/
 └── sandbox-readonly-policy.json
 ```
 
