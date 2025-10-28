@@ -42,12 +42,9 @@ This project establishes a **multi-account AWS baseline** using:
 a. Copy and configure the environment file  
    ```bash
    cp env/.env.example env/.env
-```
    # Open the env/.env and replace the placeholders with your real values.
    # Required fields: ACCOUNT_ALIAS, ADMIN_USER, READONLY_USER, TEMP passwords.
-
-
-
+```
 
 b. Run the script
 
