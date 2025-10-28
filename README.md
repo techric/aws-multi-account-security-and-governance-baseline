@@ -1,71 +1,40 @@
-# Recruiter-Friendly-README-Template
-##Hands-On Projects Worthy of Recruiter Review
-# [Project Title Here]
+# AWS Multi-Account Security and Governance Baseline
 
-> One-liner about what this AWS project does (example: "Observability on AWS EKS with Prometheus, Loki, and Grafana").
+> A professional demonstration of how to implement secure AWS account governance through root isolation, MFA enforcement, least-privilege IAM, and account alias management.
 
 ---
 
 ## 1. What This Project Shows
-- [ ] Problem: (short statement — e.g., "Enterprises lack unified observability across workloads.")
-- [ ] Solution: (short statement — e.g., "Deployed PLG stack on AWS EKS using Terraform.")
-- [ ] Impact: (short statement — e.g., "Improved incident visibility, reduced MTTR by 40%.")
+
+### Problem
+Many engineers and organizations blur the line between **root ownership** and **operational IAM usage**, creating security and audit risks.  
+Common symptoms include unprotected root accounts, weak MFA policies, and unclear ownership structures.
+
+### Solution
+This project establishes a **multi-account AWS baseline** using:
+- Strict separation between **root** and **IAM administrative roles**.
+- Mandatory **multi-factor authentication (MFA)** for all privileged identities.
+- Human-readable **account aliases** to improve clarity and login workflow.
+- A **read-only sandbox** environment for experimentation and educational use.
+
+### Impact
+- Reduced risk of accidental root use or privilege escalation.  
+- Simplified administration using aliases and consistent naming.  
+- Fully documented and auditable security configuration.  
+- Provides a reusable foundation for enterprise or personal multi-account environments.
+
+### Obstacles and Human Factors
+| Issue | Cause | Resolution | Lesson |
+|-------|--------|-------------|--------|
+| Confusion between root and IAM users | Both share the same AWS account ID | Used `aws sts get-caller-identity` to confirm session identity | Always verify ARN type before applying IAM changes |
+| MFA login failures | Authenticator configured under wrong alias URL | Re-enrolled MFA under correct alias | MFA tokens are alias-specific |
+| Email verification delays | iCloud greylisting of AWS SES mail | Waited ~10 minutes and whitelisted `amazon.com` sender | Cloud mail providers may throttle external verification emails |
+| Missing “Enable Console Access” option | AWS Console UI update renamed it to “Manage Console Access” | Located new path under IAM user settings | AWS interfaces evolve; documentation must evolve with them |
+| Multiple MFA device confusion | Same phone used for multiple authentications | Consolidated devices into a single app with clear labels | Clear labeling prevents human error and lockouts |
 
 ---
 
-## 2. How to Use This Template
-<ol type="a">
-<li> **Deploy once** (small/dev resources) → validate it works.
-<li> **Take 2–3 screenshots** (AWS Console, Grafana, AWS Athena/queries, AWS QuickSight charts) and save them in `docs/screenshots/`.
-<li> **Add an architecture diagram** to `docs/architecture.png`.d. **Destroy the infra** to avoid charges (`terraform destroy`).
-<li> Fill in the sections below (What This Shows, Architecture, Screenshots, Tech Used).
-<Li> Link your security docs: [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
-</ol>
+## 2. Architecture Overview
 
----
+High-level design of the account and IAM relationships.
 
-## 3. Architecture
-High-level diagram of how services fit together.
-NOTE: Replace this image with your diagram.
-![Architecture](docs/architecture.png)
-
----
-
-## 4. Screenshots (Proof of Work)
-Once the project is deployed, add 2-3 proof screenshots when you deploy it once: 
-
-a. **AWS Console**  
-   _Example: EKS cluster deployed_  
-   ![EKS Screenshot](docs/screenshots/eks-cluster.png)
-
-b. **Grafana Dashboard / AWS Athena Query / AWS QuickSight Chart**  
-   _Example: Cost optimization dashboard_  
-   ![Dashboard Screenshot](docs/screenshots/dashboard.png)
-
-c. **Command Line Output**  
-   _Example: Terraform apply success_  
-   
----
-
-## 5. Tech Used
-Example: AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python  
-
----
-
-## 6. Cost Note
-This project is created on-demand and destroyed after screenshots are taken to avoid AWS charges.  
-
-Security: [Security Policy](SECURITY.md) • [Security Checklist](docs/security-checklist.md)
-
----
-
-## 7. Repo Structure
-/infra       -> Terraform code  
-/docs        -> Architecture diagrams & screenshots  
-/scripts     -> Helper scripts  
-/README.md   -> Project description  
-/SECURITY.md -> Security policy  
-/CONTRIBUTING.md -> Contribution rules (you as a sole maintainer)
-
-   
-   Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
