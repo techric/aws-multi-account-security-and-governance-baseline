@@ -59,11 +59,10 @@ aws iam list-account-aliases
 aws iam list-users
 ```
 
-Sign-in URL pattern
+The sign-in URL pattern should look like this. AWS refers to this as the account's "alias". 
 ```
 https://<ACCOUNT_ALIAS>.signin.aws.amazon.com/console
 ```
-
 
 ---
 
